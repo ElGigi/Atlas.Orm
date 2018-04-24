@@ -2,6 +2,8 @@
 namespace Atlas\Orm;
 
 use Atlas\Orm\DataSource\Author\AuthorMapper;
+use Atlas\Orm\DataSource\BidiFoo\BidiFooMapper;
+use Atlas\Orm\DataSource\BidiBar\BidiBarMapper;
 use Atlas\Orm\DataSource\Reply\ReplyMapper;
 use Atlas\Orm\DataSource\Reply\ReplyRecord;
 use Atlas\Orm\DataSource\Reply\ReplyRecordSet;
@@ -37,6 +39,8 @@ class AtlasTest extends \PHPUnit\Framework\TestCase
             TagMapper::CLASS,
             ThreadMapper::CLASS,
             TaggingMapper::CLASS,
+            BidiFooMapper::CLASS,
+            BidiBarMapper::CLASS,
         ]);
 
         $connection = $atlasContainer->getConnectionLocator()->getDefault();
@@ -517,6 +521,31 @@ ORDER BY
 
         // clear out for later tests
         ThreadMapperEvents::$beforeInsert = null;
+    }
+
+    public function testBidi()
+    {
+        // create each side of the one-to-one
+        $foo = $this->atlas->newRecord(BidiFooMapper::CLASS, ['name' => 'foo']);
+        $bar = $this->atlas->newRecord(BidiBarMapper::CLASS, ['name' => 'bar']);
+
+        // set each on the other
+        $foo->bar = $bar;
+        $bar->foo = $foo;
+
+        $this->atlas->persist($foo);
+
+        // bar will have been inserted
+        $row = $bar->getRow();
+        $this->assertSame($row::INSERTED, $row->getStatus());
+        $this->assertEquals(2, $bar->bidibar_id);
+        $this->assertEquals(1, $bar->bidifoo_id);
+
+        // foo will have been updated after insert
+        $row = $foo->getRow();
+        $this->assertSame($row::UPDATED, $row->getStatus());
+        $this->assertEquals(1, $foo->bidifoo_id);
+        $this->assertEquals(2, $foo->bidibar_id);
     }
 
     protected $expectRecord = [

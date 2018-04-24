@@ -106,6 +106,20 @@ class Relationships
         );
     }
 
+    public function oneToOneBidi(
+        string $name,
+        string $nativeMapperClass,
+        string $foreignMapperClass
+    ) : RelationshipInterface {
+        return $this->set(
+            $name,
+            OneToOneBidi::CLASS,
+            $nativeMapperClass,
+            $foreignMapperClass,
+            'persistAfterNative'
+        );
+    }
+
     /**
      *
      * Defines a one-to-many relationship between Mapper objects.

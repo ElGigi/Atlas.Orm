@@ -510,6 +510,16 @@ abstract class AbstractMapper implements MapperInterface
         );
     }
 
+    protected function oneToOneBidi(string $name, string $foreignMapperClass) : RelationshipInterface
+    {
+        $this->assertRelatedName($name);
+        return $this->relationships->oneToOneBidi(
+            $name,
+            get_class($this),
+            $foreignMapperClass
+        );
+    }
+
     /**
      *
      * Sets a one-to-many relationship to another mapper.

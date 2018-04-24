@@ -31,6 +31,10 @@ class SqliteFixture
         $this->posts();
         $this->videos();
         $this->comments();
+
+        // for bidirectional relationships
+        $this->bidifoos();
+        $this->bidibars();
     }
 
     protected function pages()
@@ -460,5 +464,25 @@ class SqliteFixture
                 $student['gpa']
             ]);
         }
+    }
+
+    public function bidifoos()
+    {
+        $this->connection->query("CREATE TABLE bidifoos (
+            bidifoo_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            bidibar_id INTEGER,
+            name VARCHAR(10)
+        )");
+    }
+
+    public function bidibars()
+    {
+        $this->connection->query("CREATE TABLE bidibars (
+            bidibar_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            bidifoo_id INTEGER,
+            name VARCHAR(10)
+        )");
+
+        $this->connection->perform("INSERT INTO bidibars (name) VALUES ('prebar')");
     }
 }
