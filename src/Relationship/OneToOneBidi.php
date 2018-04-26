@@ -46,7 +46,7 @@ class OneToOneBidi extends OneToOne
      */
     public function persistForeign(RecordInterface $nativeRecord, SplObjectStorage $tracker) : void
     {
-        $this->persistForeignRecord($nativeRecord, $tracker);
+        parent::persistForeign($nativeRecord, $tracker);
         $this->fixNativeRecordKeys($nativeRecord);
         $this->nativeMapper->update($nativeRecord);
     }
