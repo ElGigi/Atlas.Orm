@@ -13,35 +13,13 @@ use SplObjectStorage;
 
 /**
  *
- * Defines a one-to-one relationship.
+ * Defines a bidirectional one-to-one relationship.
  *
  * @package atlas/orm
  *
  */
-class OneToOneBidi extends AbstractRelationship
+class OneToOneBidi extends OneToOne
 {
-    /**
-     *
-     * Stitches one or more foreign Record objects into a native Record.
-     *
-     * @param RecordInterface $nativeRecord The native Record.
-     *
-     * @param array $foreignRecords All the foreign Record objects fetched for
-     * the relationship.
-     *
-     */
-    protected function stitchIntoRecord(
-        RecordInterface $nativeRecord,
-        array $foreignRecords
-    ) : void {
-        $nativeRecord->{$this->name} = false;
-        foreach ($foreignRecords as $foreignRecord) {
-            if ($this->recordsMatch($nativeRecord, $foreignRecord)) {
-                $nativeRecord->{$this->name} = $foreignRecord;
-            }
-        }
-    }
-
     public function fixNativeRecordKeys(RecordInterface $nativeRecord) : void
     {
         $foreignRecord = $nativeRecord->{$this->name};
@@ -58,28 +36,6 @@ class OneToOneBidi extends AbstractRelationship
 
     /**
      *
-     * Given a native Record, sets the appropriate native Record values into all
-     * related foreign Records.
-     *
-     * @param RecordInterface $nativeRecord The native Record to work with.
-     *
-     */
-    public function fixForeignRecordKeys(RecordInterface $nativeRecord) : void
-    {
-        $foreignRecord = $nativeRecord->{$this->name};
-        if (! $foreignRecord instanceof RecordInterface) {
-            return;
-        }
-
-        $this->initialize();
-
-        foreach ($this->getOn() as $nativeField => $foreignField) {
-            $foreignRecord->$foreignField = $nativeRecord->$nativeField;
-        }
-    }
-
-    /**
-     *
      * Given a native Record, persists the related foreign Records.
      *
      * @param RecordInterface $nativeRecord The native Record being persisted.
@@ -90,7 +46,6 @@ class OneToOneBidi extends AbstractRelationship
      */
     public function persistForeign(RecordInterface $nativeRecord, SplObjectStorage $tracker) : void
     {
-        $this->initialize();
         $this->persistForeignRecord($nativeRecord, $tracker);
         $this->fixNativeRecordKeys($nativeRecord);
         $this->nativeMapper->update($nativeRecord);
