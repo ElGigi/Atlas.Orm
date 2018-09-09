@@ -42,7 +42,7 @@ class AtlasAutoContainer
      * @var array
      *
      */
-    protected $objectFactory;
+    protected $factory;
 
     /**
      *
@@ -81,7 +81,7 @@ class AtlasAutoContainer
     ) {
         $driver = $this->setConnectionManager(func_get_args());
         $this->queryFactory = new QueryFactory($driver);
-        $this->objectFactory = function (string $class) {
+        $this->factory = function (string $class) {
             return new $class();
         };
     }
@@ -99,7 +99,7 @@ class AtlasAutoContainer
             new TableAutoLocator(
                 $this->connectionManager,
                 $this->queryFactory,
-                $this->objectFactory
+                $this->factory
             )
         );
 
@@ -113,16 +113,16 @@ class AtlasAutoContainer
 
     /**
      *
-     * Sets a custom object objectFactory with the signature
+     * Sets a custom object factory with the signature
      * `function (string $class) // : object`.
      *
-     * @param callable $objectFactory A callable to create and return objects,
+     * @param callable $factory A callable to create and return objects,
      * typically from a DI container of some sort.
      *
      */
-    public function setObjectFactory(callable $objectFactory) : void
+    public function setFactory(callable $factory) : void
     {
-        $this->objectFactory = $objectFactory;
+        $this->factory = $factory;
     }
 
     /**

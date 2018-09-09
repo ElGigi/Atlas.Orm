@@ -28,7 +28,7 @@ class MapperAutoLocator extends MapperLocator
      * @var callable
      *
      */
-    protected $objectFactory;
+    protected $factory;
 
     /**
      *
@@ -40,7 +40,7 @@ class MapperAutoLocator extends MapperLocator
     public function __construct(TableAutoLocator $tableLocator)
     {
         parent::__construct($tableLocator);
-        $this->objectFactory = $this->tableLocator->getObjectFactory();
+        $this->factory = $this->tableLocator->getFactory();
     }
 
     /**
@@ -115,7 +115,7 @@ class MapperAutoLocator extends MapperLocator
         return new $mapperClass(
             $this->tableLocator->get($tableClass),
             new Relationships($this),
-            ($this->objectFactory)($eventsClass)
+            ($this->factory)($eventsClass)
         );
     }
 

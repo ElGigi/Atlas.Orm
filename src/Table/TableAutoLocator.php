@@ -36,7 +36,7 @@ class TableAutoLocator extends TableLocator
      * @var callable
      *
      */
-    protected $objectFactory;
+    protected $factory;
 
     /**
      *
@@ -53,11 +53,11 @@ class TableAutoLocator extends TableLocator
     public function __construct(
         ConnectionManager $connectionManager,
         QueryFactory $queryFactory,
-        callable $objectFactory
+        callable $factory
     ) {
         parent::__construct($connectionManager);
         $this->queryFactory = $queryFactory;
-        $this->objectFactory = $objectFactory;
+        $this->factory = $factory;
     }
 
     /**
@@ -67,9 +67,9 @@ class TableAutoLocator extends TableLocator
      * @return callable
      *
      */
-    public function getObjectFactory() : callable
+    public function getFactory() : callable
     {
-        return $this->objectFactory;
+        return $this->factory;
     }
 
     /**
@@ -137,7 +137,7 @@ class TableAutoLocator extends TableLocator
             $this->connectionManager,
             $this->queryFactory,
             new IdentityMap(),
-            ($this->objectFactory)($eventsClass)
+            ($this->factory)($eventsClass)
         );
     }
 
