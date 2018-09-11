@@ -14,11 +14,11 @@ use Aura\Sql\ConnectionLocator;
 use Aura\Sql\ExtendedPdo;
 use PDO;
 
-class AtlasAutoContainerTest extends AtlasContainerTest
+class AtlasBuilderTest extends AtlasContainerTest
 {
     protected function newAtlasContainer(...$args)
     {
-        return new AtlasAutoContainer(...$args);
+        return new AtlasBuilder(...$args);
     }
 
     public function testMapperWithoutTable()

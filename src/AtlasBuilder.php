@@ -18,13 +18,13 @@ use PDO;
 
 /**
  *
- * A container for setting up Atlas with autoloaded mappers (as vs registering
+ * A builder for setting up Atlas with autoloaded mappers (as vs registering
  * them in advance).
  *
  * @package atlas/orm
  *
  */
-class AtlasAutoContainer
+class AtlasBuilder
 {
     /**
      *
