@@ -9,7 +9,7 @@
 namespace Atlas\Orm\Mapper;
 
 use Atlas\Orm\Exception;
-use Atlas\Orm\Table\TableLazyLocator;
+use Atlas\Orm\Table\LazyTableLocator;
 use Atlas\Orm\Relationship\Relationships;
 
 /**
@@ -19,7 +19,7 @@ use Atlas\Orm\Relationship\Relationships;
  * @package atlas/orm
  *
  */
-class MapperLazyLocator extends MapperLocator
+class LazyMapperLocator extends MapperLocator
 {
     /**
      *
@@ -37,7 +37,7 @@ class MapperLazyLocator extends MapperLocator
      * @param TableLocator $tableLocator A table locator for the Mapper objects.
      *
      */
-    public function __construct(TableLazyLocator $tableLocator)
+    public function __construct(LazyTableLocator $tableLocator)
     {
         parent::__construct($tableLocator);
         $this->factory = $this->tableLocator->getFactory();

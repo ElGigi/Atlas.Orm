@@ -18,7 +18,7 @@ use Aura\SqlQuery\QueryFactory;
  * @package atlas/orm
  *
  */
-class TableLazyLocator extends TableLocator
+class LazyTableLocator extends TableLocator
 {
     /**
      *
