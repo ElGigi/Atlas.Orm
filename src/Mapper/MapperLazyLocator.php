@@ -9,17 +9,17 @@
 namespace Atlas\Orm\Mapper;
 
 use Atlas\Orm\Exception;
-use Atlas\Orm\Table\TableAutoLocator;
+use Atlas\Orm\Table\TableLazyLocator;
 use Atlas\Orm\Relationship\Relationships;
 
 /**
  *
- * A ServiceLocator to autoload Mapper objects.
+ * A ServiceLocator to auto-create Mapper objects.
  *
  * @package atlas/orm
  *
  */
-class MapperAutoLocator extends MapperLocator
+class MapperLazyLocator extends MapperLocator
 {
     /**
      *
@@ -37,7 +37,7 @@ class MapperAutoLocator extends MapperLocator
      * @param TableLocator $tableLocator A table locator for the Mapper objects.
      *
      */
-    public function __construct(TableAutoLocator $tableLocator)
+    public function __construct(TableLazyLocator $tableLocator)
     {
         parent::__construct($tableLocator);
         $this->factory = $this->tableLocator->getFactory();
@@ -74,7 +74,7 @@ class MapperAutoLocator extends MapperLocator
      * @throws Exception When the class is not available through this locator.
      *
      */
-    public function get(string $class)
+    public function get(string $class) : MapperInterface
     {
         if (! $this->has($class)) {
             throw $this->notFoundException($class);

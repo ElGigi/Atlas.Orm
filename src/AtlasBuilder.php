@@ -8,9 +8,9 @@
  */
 namespace Atlas\Orm;
 
-use Atlas\Orm\Mapper\MapperAutoLocator;
+use Atlas\Orm\Mapper\MapperLazyLocator;
 use Atlas\Orm\Table\ConnectionManager;
-use Atlas\Orm\Table\TableAutoLocator;
+use Atlas\Orm\Table\TableLazyLocator;
 use Aura\Sql\ConnectionLocator;
 use Aura\Sql\ExtendedPdo;
 use Aura\SqlQuery\QueryFactory;
@@ -18,8 +18,8 @@ use PDO;
 
 /**
  *
- * A builder for setting up Atlas with autoloaded mappers (as vs registering
- * them in advance).
+ * A builder for setting up Atlas with lazy-loaded mapper factories (as vs
+ * registering them in advance).
  *
  * @package atlas/orm
  *
@@ -95,8 +95,8 @@ class AtlasBuilder
      */
     public function newAtlas() : Atlas
     {
-        $mapperLocator = new MapperAutoLocator(
-            new TableAutoLocator(
+        $mapperLocator = new MapperLazyLocator(
+            new TableLazyLocator(
                 $this->connectionManager,
                 $this->queryFactory,
                 $this->factory

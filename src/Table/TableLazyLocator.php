@@ -13,12 +13,12 @@ use Aura\SqlQuery\QueryFactory;
 
 /**
  *
- * A ServiceLocator to autoload Table objects.
+ * A ServiceLocator to auto-create Table objects.
  *
  * @package atlas/orm
  *
  */
-class TableAutoLocator extends TableLocator
+class TableLazyLocator extends TableLocator
 {
     /**
      *
@@ -103,7 +103,7 @@ class TableAutoLocator extends TableLocator
      * @throws Exception When the class is not available through this locator.
      *
      */
-    public function get(string $class)
+    public function get(string $class) : TableInterface
     {
         if (! $this->has($class)) {
             throw $this->notFoundException($class);

@@ -64,4 +64,4 @@ $atlas = $atlasBuilder->newAtlas();
 > Atlas 2.5.x and earlier use the older AtlasContainer to build an Atlas
 > object. The older approach requires you to register all mappers with the
 > container using its setMappers() method, whereas the newer AtlasBuilder
-> in 2.6.x automatically loads them on demand.
+> in 2.6.x lazy-loads them on demand.
