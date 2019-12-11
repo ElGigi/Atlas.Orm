@@ -57,6 +57,11 @@ class Atlas
         $this->transaction = $transaction;
     }
 
+    public function getConnectionLocator(): ConnectionLocator
+    {
+        return $this->transaction->getConnectionLocator();
+    }
+
     public function mapper(string $mapperClass) : Mapper
     {
         return $this->mapperLocator->get($mapperClass);

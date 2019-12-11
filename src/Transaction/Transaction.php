@@ -54,6 +54,11 @@ abstract class Transaction
         }
     }
 
+    public function getConnectionLocator(): ConnectionLocator
+    {
+        return $this->connectionLocator;
+    }
+
     protected function getConnections() : array
     {
         return [
